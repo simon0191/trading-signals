@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Operation</th>
+            <th>Ticker</th>
+            <th>Potential gain</th>
+            <th>Potential loss</th>
+            <th>Risk/Reward ratio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{signal.operation_type}}</td>
+            <td>{{signal.ticker}}</td>
+            <td>{{signal.potential_gain}}</td>
+            <td>{{signal.potential_loss}}</td>
+            <td>{{signal.risk_reward_ratio}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-xs-12">
+      {{ signal.analysis | safe }}
+    </div>
+  </div>
+</div>

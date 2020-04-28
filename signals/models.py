@@ -6,7 +6,6 @@ class OperationType(Enum):
   SELL = "SELL"
   BUY = "BUY"
 
-# Create your models here.
 class Signal(models.Model):
   ticker = models.CharField(max_length=15)
   operation_type = models.CharField(

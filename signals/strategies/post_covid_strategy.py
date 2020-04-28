@@ -10,10 +10,11 @@ from django.template import Context, Template
 import base64
 from io import BytesIO
 from matplotlib.figure import Figure
+import logging
 
-
-TOP100_MARKET_CAP = ["GOOG", "GOOGL", "CIB"]
-# TOP100_MARKET_CAP = ["MSFT", "AAPL", "AMZN", "GOOG", "GOOGL", "BABA", "FB", "BRK.B", "BRK.A", "V", "JNJ", "WMT", "JPM", "PG", "CHT", "MA", "TSM", "UNH", "INTC", "VZ", "TBB", "TBC", "T", "BAC", "HD", "KO", "MRK", "PFE", "NVS", "DIS", "PEP", "XOM", "CSCO", "CMCSA", "TM", "ORCL", "NFLX", "NVDA", "CHL", "CVX", "ADBE", "ABT", "SAP", "LLY", "CRM", "MCD", "WFC", "MDT", "NKE", "BMY", "COST", "AMGN", "TMO", "PYPL", "NEE", "ABBV", "PM", "AZN", "ASML", "AMT", "SNY", "ACN", "HSBC", "HSBC/PA", "NVO", "IBM", "TMUS", "TSLA", "LMT", "AVGO", "DHR", "HON", "LIN", "UNP", "TXN", "C", "CHTR", "GSK", "TOT", "GILD", "RY", "SBUX", "BTI", "BA", "MMM", "UPS", "BP", "QCOM", "BUD", "CVS", "TD", "DEO", "RDS.A", "FIS", "AXP", "MO", "MDLZ", "SNE", "HDB", "BLK", "ADR", "CIB"]
+logger = logging.getLogger(__name__)
+# TOP100_MARKET_CAP = ["GOOG", "GOOGL", "CIB"]
+TOP100_MARKET_CAP = ["MSFT", "AAPL", "AMZN", "GOOG", "GOOGL", "BABA", "FB", "BRK.B", "BRK.A", "V", "JNJ", "WMT", "JPM", "PG", "CHT", "MA", "TSM", "UNH", "INTC", "VZ", "TBB", "TBC", "T", "BAC", "HD", "KO", "MRK", "PFE", "NVS", "DIS", "PEP", "XOM", "CSCO", "CMCSA", "TM", "ORCL", "NFLX", "NVDA", "CHL", "CVX", "ADBE", "ABT", "SAP", "LLY", "CRM", "MCD", "WFC", "MDT", "NKE", "BMY", "COST", "AMGN", "TMO", "PYPL", "NEE", "ABBV", "PM", "AZN", "ASML", "AMT", "SNY", "ACN", "HSBC", "HSBC/PA", "NVO", "IBM", "TMUS", "TSLA", "LMT", "AVGO", "DHR", "HON", "LIN", "UNP", "TXN", "C", "CHTR", "GSK", "TOT", "GILD", "RY", "SBUX", "BTI", "BA", "MMM", "UPS", "BP", "QCOM", "BUD", "CVS", "TD", "DEO", "RDS.A", "FIS", "AXP", "MO", "MDLZ", "SNE", "HDB", "BLK", "ADR", "CIB"]
 COVID_CRASH = '2020-02-19'
 
 class PostCovidStrategy:
@@ -108,7 +109,7 @@ class PostCovidStrategy:
 
   def plot_prospect(self, symbol, data, indicators):
     # Generate the figure **without using pyplot**.
-    fig = Figure()
+    fig = Figure(figsize=(20, 10))
     ax = fig.subplots()
 
     ax.set_title(symbol)
@@ -139,13 +140,13 @@ class PostCovidStrategy:
     ticker, _, indicators, data = prospect
     img_b64 = self.plot_prospect(ticker, data, indicators)
     template = Template("""
-    <h1>{{ ticker }}</h1>
     <img src='data:image/png;base64,{{ img_b64 }}'/>
     """ )
     context = Context({"ticker": ticker, "img_b64": img_b64})
     return template.render(context)
 
   def run(self, save=False):
+    logger.info('Running POST_COVID strategy...')
     prospects = self.find_post_covid_prospects(TOP100_MARKET_CAP)
 
     signals = []
@@ -162,5 +163,3 @@ class PostCovidStrategy:
       signals.append(signal)
 
     return signals
-
-
