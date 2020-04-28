@@ -1,6 +1,7 @@
 aiohttp==3.6.2
 appnope==0.1.0
 async-timeout==3.0.1
+asyncio==3.4.3
 attrs==19.3.0
 backcall==0.1.0
 bleach==3.1.4
@@ -13,7 +14,6 @@ defusedxml==0.6.0
 entrypoints==0.3
 gevent==1.5.0
 greenlet==0.4.15
-grequests==0.6.0
 idna==2.9
 importlib-metadata==1.6.0
 ipykernel==5.2.0
@@ -44,6 +44,7 @@ pickleshare==0.7.5
 Pillow==7.1.1
 prometheus-client==0.7.1
 prompt-toolkit==3.0.5
+psycopg2==2.8.5
 ptyprocess==0.6.0
 Pygments==2.6.1
 pyparsing==2.4.6
